@@ -142,7 +142,11 @@ fetch_siscan<-function (year_start, month_start = NULL, year_end, month_end = NU
     geral_url <- "ftp://ftp.datasus.gov.br/dissemin/publicos/SISCAN/SISCAN/"
     avail_geral <- unlist(strsplit(x = RCurl::getURL(
       url = geral_url, ftp.use.epsv = TRUE, dirlistonly = TRUE),
-      split = "\n"))
+      split = "\r\n"))
+    if(length(avail_geral)<=1){
+      avail_geral <- unlist(strsplit(x = avail_geral,
+        split = "\n"))
+    }
 
     dates <- unique(lubridate::year(dates))
     prefix<-paste0(information_system,"_")
@@ -155,9 +159,9 @@ fetch_siscan<-function (year_start, month_start = NULL, year_end, month_end = NU
       prefix<-paste0(prefix,"PACNT","_")
     }
     files_list <- paste0(prefix, dates,".csv")
-    #if (!any(files_list %in% avail_geral)) {
-    #  cli::cli_abort(paste0("The datas are not availabe at DataSUS"))
-    #}
+    if (!any(files_list %in% avail_geral)) {
+      cli::cli_abort(paste0("The datas are not availabe at DataSUS"))
+    }
     if (!all(files_list %in% avail_geral)) {
       cli::cli_alert(paste0("The following datas are not availabe at DataSUS: ",
                             paste0(files_list[!files_list %in% avail_geral],
