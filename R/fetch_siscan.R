@@ -211,8 +211,10 @@ fetch_siscan<-function (year_start, month_start = NULL, year_end, month_end = NU
 #'@export
 print.fetch_siscan<-function(x){
   cat("number of records:",nrow(x),"\n")
-  for(i in 1:ncol(x)){
-    cat("number of classes of ",names(x)[i],":",length(unique(x[,i])),"\n")
+  nomes<-names(x)
+  ordem<-order(nomes)
+  for(i in 1:length(nomes)){
+    cat("number of classes of ",names(x)[ordem[i]],":",length(unique(x[,ordem[i]])),"\n")
   }
   invisible(x)
 }
