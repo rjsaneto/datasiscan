@@ -155,9 +155,9 @@ fetch_siscan<-function (year_start, month_start = NULL, year_end, month_end = NU
       prefix<-paste0(prefix,"PACNT","_")
     }
     files_list <- paste0(prefix, dates,".csv")
-    if (!any(files_list %in% avail_geral)) {
-      cli::cli_abort(paste0("The datas are not availabe at DataSUS"))
-    }
+    #if (!any(files_list %in% avail_geral)) {
+    #  cli::cli_abort(paste0("The datas are not availabe at DataSUS"))
+    #}
     if (!all(files_list %in% avail_geral)) {
       cli::cli_alert(paste0("The following datas are not availabe at DataSUS: ",
                             paste0(files_list[!files_list %in% avail_geral],
